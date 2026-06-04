@@ -1,0 +1,59 @@
+# ============================================================
+#  .gitignore — Dipolo Plegado 5.6 GHz (FEKO + EasyEDA)
+# ============================================================
+
+# ----------------------------
+# FEKO
+# ----------------------------
+*.bof          # Binary output (resultados pesados)
+*.out          # Output log
+*.str          # Mesh file generado
+*.pre          # Pre-mesh
+*.os           # Solver output
+*.log
+*.err
+*.tmp
+*.mat          # Matrices internas de FEKO
+*.fek~         # Backup
+
+# Sí incluir:
+# *.cfx    → proyecto principal FEKO (CADFEKO)
+# *.lua    → scripts de automatización
+# *.postfeko → configuración de posprocesamiento
+
+# ----------------------------
+# EasyEDA / KiCad exports
+# ----------------------------
+# No ignorar nada de PCB por defecto
+# (los Gerber, BOM y archivos de perforación sí se suben)
+
+# ----------------------------
+# LaTeX
+# ----------------------------
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+paper/*.pdf
+
+# ----------------------------
+# Imágenes temporales / capturas
+# ----------------------------
+*.bmp
+*.tiff
+Thumbs.db
+.DS_Store
+
+# ----------------------------
+# Sistema operativo
+# ----------------------------
+._*
+.DS_Store
+Desktop.ini
+$RECYCLE.BIN/
+*~

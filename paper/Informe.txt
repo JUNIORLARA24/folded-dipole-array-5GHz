@@ -1,0 +1,348 @@
+\documentclass[conference]{IEEEtran}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{csquotes}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{siunitx}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage[hidelinks]{hyperref}
+\usepackage{float}
+
+
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{float}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\selectlanguage{spanish}
+
+\begin{document}
+
+\title{Diseño de un Arreglo de Antenas Dipolo Plegado para la Banda WiFi de 5.6 GHz}
+\author{%
+  \IEEEauthorblockN{Junior Lara, Jerson Lopez }
+  \IEEEauthorblockA{Ingeniería Electrónica --- Universidad de Nariño\\
+  \{Juniorlara24@udenar.edu.co, jersonalvarolopeztoro@gmail.com\}}
+}
+
+\maketitle
+
+\begin{abstract}
+En este trabajo se presenta el diseño y simulación de una antena de dipolo plegado y su correspondiente arreglo de cuatro elementos, operando en la banda U-NII de 5~GHz. El diseño se realizó sobre un sustrato FR-4 con $\varepsilon_r = 4.4$ y un espesor de 1.575~mm, incorporando un balun de $\lambda/4$ para lograr la adaptación a 50~$\Omega$. Las simulaciones en FEKO muestran una resonancia principal en 5.694~GHz para el dipolo y en 5.701~GHz para el arreglo, con adecuados niveles de adaptación. El arreglo incrementó la directividad y la ganancia ($\approx$5.6~dBi), aunque con una reducción en el ancho de banda. En conjunto, los resultados demuestran un desempeño adecuado del dipolo plegado como elemento base para el desarrollo de arreglos compactos en la banda de 5~GHz.
+\end{abstract}
+
+\textbf{Palabras clave: antena de dipolo plegado, arreglo de antenas parche, coeficiente de reflexión, FEKO, banda de 5~GHz, ganancia, microcinta.}
+\\
+
+
+
+\selectlanguage{english}
+\begin{abstract}
+This paper presents the design and simulation of a folded dipole antenna and its corresponding four-element array operating in the 5~GHz U-NII band. The design was implemented on an FR-4 substrate with $\varepsilon_r = 4.4$ and a thickness of 1.575~mm, incorporating a $\lambda/4$ balun for impedance matching to 50~$\Omega$. FEKO simulations showed a main resonance at 5.694~GHz for the single dipole and 5.701~GHz for the array, both with good matching levels. The array exhibited improved directivity and gain ($\approx$5.6~dBi) with a bandwidth reduction. Overall, the results demonstrate the adequate performance of the folded dipole as a base element for the development of compact arrays in the 5~GHz band.
+\end{abstract}
+
+
+\textbf{Index Terms: folded dipole antenna, patch antenna array, reflection coefficient, FEKO, 5~GHz band, gain, microstrip.}
+
+
+
+
+\selectlanguage{spanish}
+
+
+
+
+\section{Introducción}
+El diseño de antenas de banda ancha es un aspecto fundamental en el desarrollo de sistemas de comunicación inalámbrica modernos, especialmente en aplicaciones que operan dentro de las bandas U-NII (Unlicensed National Information Infrastructure) alrededor de los 5~GHz. Estas bandas son ampliamente utilizadas en tecnologías como Wi-Fi (IEEE~802.11a/n/ac/ax), enlaces de microondas y redes de alta capacidad, donde se requiere un desempeño estable en un amplio rango de frecuencias, una adecuada adaptación de impedancia y un patrón de radiación controlado.
+
+En este trabajo se presenta el diseño y análisis de un arreglo de 4 antenas de dipolo plegado (\textit{folded dipole array}) implementado sobre un sustrato FR-4 con una permitividad relativa de $\varepsilon_r = 4.4$ y un espesor de 1.575~mm. El dipolo plegado se selecciona como elemento base del arreglo debido a sus ventajas frente al dipolo convencional, entre ellas una mayor impedancia de entrada, mejor adaptación a 50~$\Omega$ y un comportamiento de banda más ancha.
+
+En este proyecto se contempla el diseño de un elemento individual con una impedancia característica de 50~$\Omega$ y la implementación de una red de alimentación y acople de impedancia que permita conectar cuatro elementos a un solo puerto de entrada. Posteriormente, el arreglo completo se simula en el software FEKO, con el fin de evaluar su desempeño electromagnético en un rango amplio de frecuencias dentro de la banda U-NII.
+
+Los resultados incluyen el análisis del parámetro $S_{11}$ en función de la frecuencia, la representación en la carta de Smith de la impedancia de entrada y los patrones de radiación en 2D y 3D. Estos parámetros permiten verificar la adaptación de impedancia, la directividad del arreglo y su ancho de banda operativo.
+
+
+
+\section{Principios de Diseño y Funcionamiento}
+
+A continuación se presentan los principios de diseño y funcionamiento de la antena de dipolo plegado individual, siguiendo un procedimiento similar al descrito en \cite{Navas2022Dipolo}. Posteriormente, se aborda el proceso de acople e implementación del arreglo de 4 antenas, considerando los aspectos de alimentación, espaciamiento y adaptación necesarios para su correcto desempeño.
+
+\subsection{Diseño del Dipolo Plegado}
+La antena de dipolo plegado fue diseñada para operar a una frecuencia central de 5.6~GHz. Como material conductor se utilizó cobre y el sustrato empleado fue FR-4, con una permitividad relativa de $\varepsilon_r = 4.4$ y una altura $h = 1.575~\text{mm}$.
+
+La longitud de onda en el vacío se calculó como:
+
+\[
+\lambda = \frac{c}{f} = \frac{3 \times 10^{8}}{5.6 \times 10^{9}} \approx 53.57~\text{mm}.
+\]
+
+Considerando el efecto dieléctrico del sustrato, la longitud de onda efectiva resulta:
+
+\[
+\lambda_\text{ef} = \frac{\lambda}{\sqrt{\varepsilon_r}} \approx 25.55~\text{mm},
+\]
+
+por lo que la longitud eléctrica del dipolo es aproximadamente la mitad de dicha longitud, es decir, $\lambda_\text{ef}/2 \approx 12.77~\text{mm}$.
+
+La antena se acopló mediante un balun de $\lambda/4$, siguiendo los principios descritos por Balanis en \cite{balanis2016antenna}, el cual permite una alimentación bifilar equilibrada y una adecuada adaptación de impedancia. Dado que la impedancia de la antena es aproximadamente $Z_L \approx 300~\Omega$, se diseñó el transformador de cuarto de longitud de onda con una impedancia característica de:
+
+\[
+Z_T = \sqrt{Z_L \times 50} \approx 122.47~\Omega,
+\]
+y una longitud física ajustada a $\lambda_\text{ef}/4 \approx 6.39~\text{mm}$.
+
+\begin{table}[!h]
+\renewcommand{\arraystretch}{1.3}
+\caption{Medidas antena de dipolo doblado}
+\label{tab1}
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Material} & \textbf{Parámetro} & \textbf{Medida [mm]} \\
+\hline
+\multirow{3}{*}{Sustrato ($\varepsilon_r=4.4$)} & Altura h & 1.575 \\
+& Longitud eje y Ly & 12.77 \\
+& Longitud eje x Lx & 12.77 \\
+\hline
+\multirow{6}{*}{Cobre (Antena)} & Longitud eje x1 Lx1 & 10.22 \\
+& Ancho distancia 1 Wd1 & 0.33 \\
+& Ancho distancia 2 Wd2 & 0.33 \\
+& Ancho distancia 3 Wd3 & 1.33 \\
+& Separación s & 0.22 \\
+& Brecha b & 8.88 \\
+\hline
+\multirow{5}{*}{Cobre (Balun +)} & Longitud eje y1 Ly1 & 3.24 \\
+& Longitud eje y2 Ly2 & 3.15 \\
+& Ancho longitud 1 Wl1 & 0.44 \\
+& Ancho longitud 2 Wl2 & 0.44 \\
+& Ancho longitud 3 Wl3 & 1.11 \\
+\hline
+\multirow{4}{*}{Cobre (Balun -)} & Longitud eje y3 Ly3 & 6.39 \\
+& Ancho longitud 4 Wl4 & 0.44 \\
+& Ancho longitud 5 Wl5 & 0.44 \\
+& Diámetro D & 0.44 \\
+\hline
+\end{tabular}
+\end{table}
+
+
+
+\begin{figure}[!h]
+    \centering
+    \begin{subfigure}[b]{0.35\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{dip_feko.png}
+        \caption{Vista general en \textsc{CADFEKO}}
+        \label{fig:dip_feko}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.36\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{dip_top.png}
+        \caption{Vista superior}
+        \label{fig:img2}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.16\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{dip_down.png}
+        \caption{Vista inferior}
+        \label{fig:img3}
+    \end{subfigure}
+    \caption{Geometría y dimensiones del dipolo doblado}
+    \label{fig:dipolo}
+\end{figure}
+
+En la Figura~\ref{fig:dipolo} se presenta el diseño final de la antena de dipolo plegado desarrollada para la frecuencia central de 5.6~GHz. La estructura está conformada por dos conductores paralelos conectados en sus extremos, conformando un lazo cerrado que incrementa la impedancia de entrada respecto al dipolo convencional. En la parte central se ubica el punto de alimentación mediante un balun de $\lambda/4$, encargado de equilibrar la corriente entre los brazos y adaptar la impedancia hacía 50~$\Omega$. Las dimensiones de la antena, observadas en la tabla \ref{tab1}, se calcularon a partir de la longitud de onda efectiva sobre el sustrato FR-4 y posteriormente se ajustaron de manera iterativa mediante simulaciones, con el fin de optimizar la frecuencia de resonancia y asegurar un comportamiento estable dentro de la banda de operación.
+
+
+
+\subsection{Diseño del Arreglo de 4 antenas}
+
+Para el arreglo de 4 antenas, basado en un arreglo lineal, se implementó una red de alimentación en forma de \textit{T}. En la primera sección se realizó una adaptación mediante un transformador de cuarto de longitud de onda con una impedancia de transformación de $Z_T = \sqrt{50 \times 200} = 100~\Omega$, con una separación entre elementos de $\lambda$. En la segunda sección, con una separación de $2\lambda$, se empleó nuevamente una impedancia de transformación de $Z_T = \sqrt{100 \times 100} = 100~\Omega$, logrando finalmente una impedancia total de entrada de 50~$\Omega$ en el punto de alimentación. Este diseño permite una correcta adaptación de impedancias y una distribución uniforme de potencia a lo largo del arreglo.
+
+
+La línea de alimentación se diseñó según el modelo de líneas de placas paralelas, cuya impedancia característica está dada por: \[ Z_0 = \frac{120\pi h}{\sqrt{\varepsilon_r} w} = 50~\Omega, \] de donde se obtiene un ancho de línea de $w \approx 3.02~\text{mm}$ para lograr una adaptación a 50~$\Omega$.
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\linewidth]{4x4.png}
+\caption{Diseño final del arreglo de 4 antenas en \textsc{CADFEKO}.}
+\label{fig:4x4}
+\end{figure}
+
+En la Figura~\ref{fig:4x4} se muestra el diseño final del arreglo de cuatro antenas de dipolo plegado, configuradas en una disposición lineal. Cada elemento mantiene una separación de $\lambda$ para evitar acoplamientos mutuos significativos y conservar la directividad del sistema. La red de alimentación se implementó mediante secciones de línea con transformadores de cuarto de longitud de onda, diseñadas para garantizar una distribución equitativa de potencia y una adaptación de impedancias hacia 50~$\Omega$. Con este arreglo se busca que los elementos trabajen en fase, obteniendo un patrón de radiación más directivo y una mejor eficiencia de acoplamiento.
+
+
+\section{Análisis de Resultados}
+En esta sección se presentan los resultados obtenidos a partir de las simulaciones realizadas para la antena de dipolo plegado y su correspondiente arreglo. El análisis se centra en la respuesta del parámetro de dispersión $S_{11}$ en función de la frecuencia, la representación de la impedancia de entrada en la carta de Smith y los patrones de radiación en dos y tres dimensiones. Estos resultados permiten evaluar la adaptación de impedancia, la directividad del arreglo y el ancho de banda operativo, verificando así el desempeño del diseño propuesto.
+
+\subsection{Parámetro $S_{11}$}
+
+En la Figura~\ref{fig:dipolo_s11} se muestra la respuesta del parámetro de dispersión $S_{11}$ en función de la frecuencia para la antena de dipolo plegado individual. Se observan dos frecuencias de resonancia principales, ubicadas en 4.301~GHz y 5.694~GHz. La resonancia de mayor interés corresponde a 5.694~GHz, ya que se encuentra más próxima a la frecuencia de diseño establecida en 5.6~GHz. En esta frecuencia se alcanza un nivel de reflexión de aproximadamente $-21.9$~dB, lo que indica una adecuada adaptación de impedancia. Además, la antena presenta un ancho de banda operativo que se extiende aproximadamente desde 4~GHz hasta 6.2~GHz, evidenciando un comportamiento de banda ancha dentro de la región de operación.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\linewidth]{dipolo_s11.png}
+\caption{Respuesta del parámetro $S_{11}$ del dipolo plegado.}
+\label{fig:dipolo_s11}
+\end{figure}
+
+En la Figura~\ref{fig:arreglo_s11} se presenta la respuesta del parámetro de dispersión $S_{11}$ en función de la frecuencia para el arreglo de cuatro antenas de dipolo plegado. Se observan dos frecuencias de resonancia principales, localizadas en 4.35~GHz y 5.701~GHz. La resonancia de interés corresponde a 5.701~GHz, por encontrarse más próxima a la frecuencia de diseño de 5.6~GHz. En este punto, el nivel de reflexión alcanza un valor de aproximadamente $-19.79$~dB, evidenciando una adecuada adaptación de impedancia del arreglo. No obstante, se aprecia una reducción significativa en el ancho de banda respecto al dipolo individual, siendo ahora de aproximadamente 5.6~GHz a 5.8~GHz, lo que indica un comportamiento más selectivo en la respuesta del sistema al conformar el arreglo.
+
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=1\linewidth]{arreglo_s11.png}
+\caption{Respuesta del parámetro $S_{11}$ del arreglo de 4 antenas.}
+\label{fig:arreglo_s11}
+\end{figure}
+
+
+
+
+
+\subsection{Carta de Smith}
+
+En la Figura~\ref{fig:dipolo_carta} se presenta la carta de Smith correspondiente a la impedancia de entrada de la antena de dipolo plegado. Se observa que, a la frecuencia de operación de 5.69~GHz, la impedancia obtenida es de aproximadamente $Z_\text{in} = 45.07 - j5.58~\Omega$, valor cercano a la impedancia característica de 50~$\Omega$. Este resultado demuestra una buena adaptación de impedancia en la frecuencia de trabajo, lo cual se traduce en un nivel reducido de reflexión y en una transferencia eficiente de potencia hacia la antena.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.72\linewidth]{dipolo_carta.png}
+\caption{Carta de Smith de la impedancia del dipolo.}
+\label{fig:dipolo_carta}
+\end{figure}
+
+En la Figura~\ref{fig:arreglo_carta} se muestra la carta de Smith correspondiente a la impedancia de entrada del arreglo de cuatro antenas de dipolo plegado. A la frecuencia de 5.7~GHz, la impedancia simulada es de aproximadamente $Z_\text{in} = 58.55 + j0.27~\Omega$, valor cercano a los 50~$\Omega$, lo que indica una adecuada adaptación en la frecuencia de operación. No obstante, en comparación con el dipolo plegado individual, la trayectoria del coeficiente de reflexión exhibe un comportamiento más irregular y disperso a lo largo del rango de frecuencias, lo que puede deberse al acoplamiento entre las antenas y a las variaciones de fase introducidas por la red de alimentación. 
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.72\linewidth]{arreglo_carta.png}
+\caption{Carta de Smith de la impedancia del arreglo.}
+\label{fig:arreglo_carta}
+\end{figure}
+
+\subsection{Patrón de radiación}
+\begin{figure}[!h]
+    \centering
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{dipolo_rad.png}
+        \caption{Vista 3D.}
+        \label{fig:dipolo_rad}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{dipolo_thet.png}
+        \caption{Plano azimutal del patrón de radiación.}
+        \label{fig:dipolo_thet}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{dipolo_elev.png}
+        \caption{Plano de elevación del patrón de radiación.}
+        \label{fig:dipolo_elev}
+    \end{subfigure}
+    \caption{Patrón de radiación de la antena dipolo plegado.}
+    \label{fig:radiacion_dipolo}
+\end{figure}
+
+El conjunto de imágenes presentadas en la Figura~\ref{fig:radiacion_dipolo} muestra el patrón de radiación de la antena dipolo plegado en su frecuencia de operación. La imágen \ref{fig:dipolo_rad} corresponde a la representación tridimensional (3D) del patrón de radiación, donde se aprecia una forma toroidal, coherente con la naturaleza del dipolo plegado. La escala de colores en dBi muestra que la máxima ganancia se concentra en el plano perpendicular al eje del dipolo, mientras que las regiones cercanas al eje presentan una atenuación. Este comportamiento demuestra que el dipolo plegado mantiene una radiación simétrica y una directividad moderada, adecuada para aplicaciones de cobertura amplia y radiación uniforme en el plano horizontal.
+
+En la imágen \ref{fig:dipolo_thet} se observa el patrón en el plano azimutal ($\phi$), donde la radiación presenta una forma bidireccional característica, con lóbulos principales a los $0^\circ$ y $180^\circ$, y un valor máximo aproximado de $-0.688$~dBi. Este comportamiento es típico de antenas dipolo, ya que la radiación es mínima en la dirección axial ($90^\circ$ y $270^\circ$).
+
+Finalmente, en la imágen \ref{fig:dipolo_elev} se presenta el patrón en el plano de elevación ($\theta$), el cual evidencia una distribución prácticamente omnidireccional, con una ganancia promedio cercana a $-1.1$~dBi, indicando una radiación relativamente uniforme en ese plano.
+
+
+
+
+\begin{figure}[!h]
+    \centering
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{arreglo_3d.jpg}
+        \caption{Vista 3D.}
+        \label{fig:arreglo_3d}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{arreglo_theta.png}
+        \caption{Plano azimutal del patrón de radiación.}
+        \label{fig:arreglo_thet}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{arreglo_phi.png}
+        \caption{Plano de elevación del patrón de radiación.}
+        \label{fig:arreglo_phi}
+    \end{subfigure}
+    \caption{Patrón de radiación de la antena dipolo plegado.}
+    \label{fig:radiacion_arreglo}
+\end{figure}
+
+Respecto al arreglo de 4 antenas, en la Figura~\ref{fig:radiacion_arreglo} se presentan los resultados del patrón de radiación obtenido en su frecuencia de operación. En la imagen~\ref{fig:arreglo_3d} se observa el patrón tridimensional (3D) del campo lejano, donde se evidencia un incremento en la directividad respecto al dipolo individual. El lóbulo principal se concentra en una dirección predominante, con una ganancia máxima cercana a 5.6~dBi, indicando una radiación más enfocada y una menor dispersión de energía en otras direcciones.
+
+El diagrama polar mostrado en la imagen~\ref{fig:arreglo_thet} corresponde al patrón en el plano azimutal ($\phi$), en el cual se aprecia una mayor definición de los lóbulos principales y secundarios, producto de la interferencia constructiva y destructiva entre los elementos del arreglo. Este comportamiento confirma la formación de un frente de onda más direccional, coherente con el principio de superposición de radiadores en fase.
+
+Por último, la imagen~\ref{fig:arreglo_phi} presenta el patrón en el plano de elevación ($\theta$), donde la radiación se mantiene concentrada alrededor del eje principal, con un valor de ganancia promedio de aproximadamente 5.4~dBi. En conjunto, estos resultados demuestran que el arreglo de cuatro antenas aumenta la directividad y la ganancia total del sistema, a costa de una menor cobertura angular, cumpliendo con el objetivo de concentrar la energía radiada en la banda de interés.
+
+\subsection{Medición del modelo implementado y comparación de la respuesta}
+
+Con el fin de validar el comportamiento electromagnético de la antena de dipolo plegado implementada, se realizó una medición experimental del parámetro de reflexión $S_{11}$ utilizando un analizador de redes vectoriales (VNA). La Figura~\ref{fig:s11_real} muestra la respuesta experimental obtenida para la antena fabricada, medida en un rango desde 4~GHz hasta 7.5~GHz. En esta gráfica se observa una resonancia pronunciada alrededor de 4.3~GHz y otra entre aproximadamente 5.4~GHz y 7~GHz.
+
+
+Para verificar la coherencia entre el prototipo y el diseño simulado, en la Figura~\ref{fig:s11_comp} se presenta la comparación entre la respuesta experimental y la obtenida mediante simulación en FEKO. Se observa que la curva medida presenta un corrimiento hacia la derecha respecto a la simulada, desplazando la resonancia y cambiando el ancho de banda útil. Mientras que la simulación mantiene niveles inferiores a $-10$~dB en un amplio rango, la respuesta experimental sobrepasa este umbral en el intervalo comprendido entre 4.5~GHz y 5.4~GHz; no obstante, se conserva una reflexión aceptable en la frecuencia de interés para WiFi 5G. Aunque existe un desplazamiento entre ambas respuestas, la forma general de las curvas muestra tendencias similares en la zona de resonancia y en el comportamiento global de la antena. Las diferencias observadas pueden asociarse a tolerancias de fabricación, variaciones en el sustrato FR-4, soldaduras y condiciones de medición no ideales.
+
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\linewidth]{s11_real.png}
+\caption{Respuesta experimental del parámetro $s_{11}$ de la antena dipolo plegado.}
+\label{fig:s11_real}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\linewidth]{s11_comp.png}
+\caption{Comparación de la respuesta experimental y simulada del parámetro $s_{11}$ de la antena dipolo plegado.}
+\label{fig:s11_comp}
+\end{figure}
+
+\section{Análisis de Mediciones}
+
+La última figura muestra que la respuesta medida con el analizador de redes vectorial (VNA) mantiene la misma zona de resonancia principal que la simulación, aunque se observa un ligero corrimiento en frecuencia y una adaptación algo peor, evidenciada en un mínimo de $S_{11}$ menos profundo. La forma general de la curva de $S_{11}$ y el ancho de banda alrededor de la resonancia son similares en ambos casos, lo que indica que el modelo electromagnético describe adecuadamente el comportamiento real de la antena.
+
+En las mediciones se aprecia un pequeño desplazamiento de la frecuencia de mínima reflexión respecto a la simulación, que puede asociarse a tolerancias de fabricación, variaciones en la permitividad real del sustrato FR-4 y detalles del montaje del conector y el balun. Además, el nivel mínimo de $S_{11}$ medido es menos negativo que en la simulación, lo que sugiere pérdidas adicionales y desadaptaciones no idealizadas, aunque sin comprometer el funcionamiento en la banda objetivo.
+
+\section{Conclusión}
+El desarrollo y simulación de la antena de dipolo plegado permitieron comprobar su adecuado desempeño en la banda de 5~GHz, alcanzando una buena adaptación de impedancia y una respuesta estable dentro del rango de operación. El análisis del parámetro $S_{11}$ mostró dos frecuencias de resonancia, siendo la principal la ubicada en 5.694~GHz, con un nivel de reflexión de aproximadamente $-21.9$~dB, lo que confirma un acople eficiente a 50~$\Omega$. Además, el comportamiento de banda ancha, con un ancho de banda estimado entre 4~GHz y 6.2~GHz, demuestra la capacidad del dipolo plegado para operar en un rango de frecuencias extendido, conservando su eficiencia y estabilidad.
+
+La carta de Smith correspondiente al dipolo individual evidenció una impedancia de entrada cercana a $45 - j5.6~\Omega$ en la frecuencia de diseño, validando el acoplamiento apropiado con la línea de transmisión. Este resultado respalda la correcta implementación del balun $\lambda/4$ y el dimensionamiento del elemento radiante sobre el sustrato FR-4, garantizando la transferencia efectiva de potencia hacia la antena.
+
+Por otro lado, el arreglo de cuatro antenas de dipolo plegado presentó un comportamiento coherente con los principios teóricos de formación de arreglos. El parámetro $S_{11}$ mostró una resonancia principal en 5.701~GHz, con un valor de $-19.79$~dB, indicando una buena adaptación a la frecuencia de interés, aunque con una reducción del ancho de banda operativo (aproximadamente entre 5.6~GHz y 5.8~GHz). Este estrechamiento es atribuible al acoplamiento mutuo entre los elementos y al efecto de la red de alimentación. La carta de Smith del arreglo confirmó una impedancia de entrada próxima a $58.5 + j0.27~\Omega$, manteniendo un acoplamiento aceptable, aunque con una trayectoria más irregular producto de las interacciones electromagnéticas entre antenas.
+
+En cuanto al comportamiento de radiación, los patrones obtenidos evidenciaron un aumento significativo en la ganancia y la directividad al pasar del dipolo individual al arreglo de cuatro elementos. Mientras que el dipolo plegado mostró una radiación simétrica de forma toroidal y una ganancia moderada, el arreglo presentó una concentración más pronunciada del lóbulo principal, con una ganancia máxima aproximada de 5.6~dBi. Este resultado confirma el efecto constructivo del acoplamiento en fase de los elementos y la mejora en la direccionalidad del sistema, a costa de una menor cobertura angular.
+
+En conjunto, los resultados obtenidos demuestran que el diseño propuesto cumple con los objetivos planteados: operar dentro de la banda de 5~GHz con una adecuada adaptación de impedancia, buena eficiencia de radiación y una respuesta direccional mejorada mediante la configuración en arreglo. El análisis realizado valida la viabilidad del dipolo plegado como elemento básico para el desarrollo de arreglos compactos y eficientes en aplicaciones de comunicaciones inalámbricas dentro de la banda U-NII.
+
+
+\bibliographystyle{IEEEtran}
+\bibliography{ref}
+
+\end{document}
